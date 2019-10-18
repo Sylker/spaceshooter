@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class nave : MonoBehaviour {
+public class Nave : MonoBehaviour {
 
 	Animator animator;
 	public float speed = 5;	
