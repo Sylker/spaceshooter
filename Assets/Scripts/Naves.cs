@@ -9,6 +9,7 @@ public class Naves : MonoBehaviour {
 	public int lives = 3;
 	public GameObject nave;
 	public GameObject gameOver;
+    public GameObject newRecordText;
 	public Transform grid;
 	public GameObject lifeCounterIcon;
 	public Button restartButton;
@@ -31,9 +32,21 @@ public class Naves : MonoBehaviour {
 		StartCoroutine(Create(0));
 	}
 
-	void Restart () {
+    private void Update()
+    {
+        if (newRecordText.activeSelf)
+        {
+            Text text = newRecordText.GetComponent<Text>();
+            float alpha = Mathf.Lerp(0,1,Mathf.PingPong(Time.time*5,1));
+            Color color = text.color;
+            color.a = alpha;
+            text.color = color;
+        }
+    }
+
+    void Restart () {
         audioSource.Play();
-		SceneManager.LoadScene (0);
+		    SceneManager.LoadScene ("Game");
 	}
 
 	public void Respawn() {
@@ -42,12 +55,14 @@ public class Naves : MonoBehaviour {
             RemoveLifeIcon();
             StartCoroutine(Create(1)); 
 		}
-		else { 
-			gameOver.SetActive(true);
+		else 
+    {
+		    gameOver.SetActive(true);
+        newRecordText.SetActive(Score.Instance.NewRecord);
 		}
 		lifeCounter.text = "x" + lives;
 	}
-
+    
 	IEnumerator Create(float time) {
 		yield return new WaitForSeconds(time);
 		Instantiate(nave, transform.position, transform.rotation);

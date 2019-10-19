@@ -12,12 +12,31 @@ public class Nave : MonoBehaviour {
 
 	void Start () {
 		animator = GetComponent<Animator>();
+        
+    if (FireButton.Instance)
+    {
+        FireButton.Instance.button.onClick.AddListener
+        (() => Instantiate(
+            shot.gameObject, 
+            frontCannnon.position, 
+            Quaternion.identity)
+        );
+    }
 	}
 
 	void Update () {
 		float horizontal = Input.GetAxis("Horizontal");
 		float vertical = Input.GetAxis("Vertical");
-
+    
+    if (SingleJoystick.Instance)
+    {
+        horizontal = 
+            SingleJoystick.Instance.GetInputDirection().x;
+            
+        vertical = 
+            SingleJoystick.Instance.GetInputDirection().y;
+    }    
+        
 		Vector3 position = transform.position;
 
 		position.x += horizontal * Time.deltaTime * speed;
